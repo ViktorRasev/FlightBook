@@ -1,7 +1,8 @@
+import { Routes, Route } from "react-router-dom"
 import {useEffect} from "react";
 import { useDispatch } from 'react-redux'
 import {setError, setFlights, setLoading} from "./features/flightReducer.js";
-
+import Home from "./routes/Home"
 function App() {
     const dispatch = useDispatch()
 
@@ -11,7 +12,7 @@ function App() {
                 const response = await fetch("flightsData.json");
                 const data = await response.json();
                 dispatch(setFlights(data));
-                dispatch(setLoading(false));
+                dispatch(setLoading(true));
             } catch (error) {
                 console.error("Problem with fetching data: ", error);
                 dispatch(setError(true));
@@ -25,8 +26,9 @@ function App() {
 
 return (
     <>
-        <h1>Hello</h1>
-
+        <Routes>
+            <Route path="/" element={<Home />}/>
+        </Routes>
     </>
 
 )
