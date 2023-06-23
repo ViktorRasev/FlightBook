@@ -2,10 +2,14 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import {useDispatch} from "react-redux";
+import {setPickedDestinations} from "../features/pickedDestinationsReducer"
+
 
 const SearchForm = () => {
   const isLoaded = useSelector((posts) => posts.flights.loading);
   const data = useSelector((posts) => posts.flights.flights);
+  const dispatch = useDispatch()
 
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
@@ -37,6 +41,18 @@ const SearchForm = () => {
     setToValue(value);
   };
 
+
+  useEffect(() => {
+    if (fromValue && toValue) {
+      const pickedDestinations = data.filter(
+          (city) => city.from === fromValue && city.to === toValue
+      );
+      dispatch(setPickedDestinations(pickedDestinations));
+    }
+  }, [fromValue, toValue, data, dispatch]);
+
+
+
   return (
     <div>
       <Autocomplete
@@ -56,8 +72,6 @@ const SearchForm = () => {
           renderInput={(params) => <TextField {...params} label="To" />}
         />
       ) : null}
-
-      {/*<div>{cities.map(city => <span>{city}</span>)}</div>*/}
     </div>
   );
 };

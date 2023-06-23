@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom"
 import {useEffect} from "react";
 import { useDispatch } from 'react-redux'
-import {setError, setFlights, setLoading} from "./features/flightReducer.js";
+import {setError, setFlights, setLoading} from "./features/flightReducer";
 import Home from "./routes/Home"
 function App() {
     const dispatch = useDispatch()
