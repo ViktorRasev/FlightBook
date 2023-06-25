@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setError, setFlights, setLoading } from "./features/flightReducer";
 import Home from "./routes/Home";
-import Ticket from "./routes/OrderTicket";
+import OrderTicket from "./routes/OrderTicket";
 import Receipt from "./routes/Receipt";
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/orderTicket" element={<Ticket />} />
+        <Route path="/orderTicket" element={<OrderTicket />} />
         <Route path="/receipt" element={<Receipt />} />
       </Routes>
     </>
