@@ -2,14 +2,14 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {useDispatch} from "react-redux";
-import {setPickedDestinations} from "../features/pickedDestinationsReducer"
-
+import { useDispatch } from "react-redux";
+import { setPickedDestinations } from "../features/pickedDestinationsReducer";
+import { Stack } from "@mui/material";
 
 const SearchForm = () => {
   const isLoaded = useSelector((posts) => posts.flights.loading);
   const data = useSelector((posts) => posts.flights.flights);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
@@ -17,7 +17,7 @@ const SearchForm = () => {
 
   let cities = [];
   if (isLoaded) {
-    cities = [ ...new Set(data.map((item) => item.from))]; // Filter duplicates
+    cities = [...new Set(data.map((item) => item.from))]; // Filter duplicates
   }
 
   const handleFromSelectedOption = (event, value) => {
@@ -41,20 +41,23 @@ const SearchForm = () => {
     setToValue(value);
   };
 
-
   useEffect(() => {
     if (fromValue && toValue) {
       const pickedDestinations = data.filter(
-          (city) => city.from === fromValue && city.to === toValue
+        (city) => city.from === fromValue && city.to === toValue
       );
       dispatch(setPickedDestinations(pickedDestinations));
+    } else {
+      dispatch(setPickedDestinations([]));
     }
-  }, [fromValue, toValue, data, dispatch]);
-
-
+  }, [fromValue, toValue, data]);
 
   return (
-    <div>
+    <Stack
+      direction="column"
+      spacing={2}
+      sx={{ width: "300px", margin: "1rem auto" }}
+    >
       <Autocomplete
         id="free-solo-demo"
         freeSolo
@@ -62,17 +65,16 @@ const SearchForm = () => {
         onChange={handleFromSelectedOption}
         renderInput={(params) => <TextField {...params} label="From" />}
       />
-      {filteredDestinations.length ? (
-        <Autocomplete
-          id="free-solo-demo"
-          value={toValue}
-          freeSolo
-          options={filteredDestinations}
-          onChange={handleToSelectedOption}
-          renderInput={(params) => <TextField {...params} label="To" />}
-        />
-      ) : null}
-    </div>
+      <Autocomplete
+        disabled={!filteredDestinations.length}
+        id="free-solo-demo"
+        value={toValue}
+        freeSolo
+        options={filteredDestinations}
+        onChange={handleToSelectedOption}
+        renderInput={(params) => <TextField {...params} label="To" />}
+      />
+    </Stack>
   );
 };
 
