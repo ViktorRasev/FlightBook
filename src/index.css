@@ -1,0 +1,11 @@
+* {
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+}
+button.MuiPickersDay-root:not(.Mui-disabled) {
+    background-color: rgba(55, 108, 178, 0.46) !important;
+}
+
+button.MuiToggleButton-root.Mui-selected {
+    background-color: #1976d2;
+    color:white;
+}
